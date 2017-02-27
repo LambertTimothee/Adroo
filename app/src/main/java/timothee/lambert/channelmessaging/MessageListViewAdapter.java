@@ -25,8 +25,8 @@ public class MessageListViewAdapter extends ArrayAdapter<Message> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View msgView = inflater.inflate(R.layout.message_layout, parent, false);
-        txtMsg = (TextView) msgView.findViewById(R.id.txtMessage);
-        txtMsg.setText(getItem(position).userID+" : "+getItem(position).message);
+        txtMsg = (TextView) msgView.findViewById(R.id.txtMsg);
+        txtMsg.setText(getItem(position).username+" : "+getItem(position).message);
         txtDate = (TextView) msgView.findViewById(R.id.txtDate);
         txtDate.setText(getItem(position).date.toString());
         return msgView;

@@ -3,8 +3,10 @@ package timothee.lambert.channelmessaging;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -16,19 +18,30 @@ import java.util.HashMap;
 /**
  * Created by lambetim on 30/01/2017.
  */
-public class ChannelActivity extends AppCompatActivity implements OnDownloadCompleteListener{
+public class ChannelActivity extends AppCompatActivity implements View.OnClickListener, OnDownloadCompleteListener{
     private ListView lvMessages;
     private Button btnEnvoyer;
     private EditText txtMessage;
     private CallBackMessage msg;
-
+    private Handler handler;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_channel);
         lvMessages = (ListView) findViewById(R.id.lvMessages);
         btnEnvoyer = (Button)findViewById(R.id.btnEnvoyer);
         txtMessage = (EditText)findViewById(R.id.txtMessage);
-        loadMessage();
+        btnEnvoyer.setOnClickListener(this);
+
+        handler = new Handler();
+        final Runnable run = new Runnable() {
+            @Override
+            public void run() {
+                loadMessage();
+                handler.postDelayed(this,1000);
+            }
+
+        };
+        handler.postDelayed(run,1000);
     }
 
     public void loadMessage(){
@@ -36,18 +49,35 @@ public class ChannelActivity extends AppCompatActivity implements OnDownloadComp
         String accesstoken = settings.getString("accesstoken", "error");
         HashMap<String, String> connectInfo = new HashMap<>();
         connectInfo.put("accesstoken", accesstoken);
-        Log.d("Yolooooo",Integer.toString(getIntent().getIntExtra("id",0)));
+
         connectInfo.put("channelid", Integer.toString(getIntent().getIntExtra("id",0)));
         Async Async = new Async(getApplicationContext(), connectInfo,"getmessages");
-        Async.setOnDownloadCompleteListener(this);
+        Async.setOnDownloadCompleteListener(this);//ça bug quelque part par ici
         Async.execute();
     }
 
     public void onDownloadComplete(String result) {
         Gson gson = new Gson();
         msg = gson.fromJson(result, CallBackMessage.class);
-        Log.d("resulttttttttttt","fe"+result);
         lvMessages.setAdapter(new MessageListViewAdapter(getApplicationContext(), R.layout.activity_channel ,R.layout.message_layout, msg.messages));
     }
+    public void postMsg(){
+        HashMap<String, String> connectInfo = new HashMap<>();
+        SharedPreferences settings = getSharedPreferences(LoginActivity.PREFS_NAME, 0);
+        String accessToken = settings.getString("accesstoken", "error");
+        connectInfo.put("accesstoken",accessToken);
+        connectInfo.put("channelid",Integer.toString(getIntent().getIntExtra("id",0)));
+        connectInfo.put("message",txtMessage.getText().toString());
+        Async Async = new Async(getApplicationContext(),connectInfo,"sendmessage");
+        Async.execute();
+    }
 
+    @Override
+    public void onClick(View v) {
+
+        if(v.getId() == btnEnvoyer.getId())
+        {
+            postMsg();
+        }
+    }
 }

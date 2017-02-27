@@ -4,12 +4,13 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="61dp"
+        android:layout_width="363dp"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/txtMsg" />
 
     <TextView
-        android:layout_width="61dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:id="@+id/txtDate" />
 </LinearLayout>

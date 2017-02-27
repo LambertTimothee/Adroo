@@ -8,14 +8,15 @@ import java.util.Date;
 public class Message {
     public int userID;
     public String message;
-    public Date date;
+    public String date;
     public String imageUrl;
     public String username;
 
-    public Message(int userID, String message, Date date, String imageUrl) {
+    public Message(int userID, String message, String date, String imageUrl) {
         this.userID = userID;
         this.message = message;
         this.date = date;
         this.imageUrl = imageUrl;
+        this.username = username;
     }
 }
