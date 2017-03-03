@@ -32,10 +32,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         btValider = (Button) findViewById(R.id.btnValidate);
         btValider.setOnClickListener(this);
-
-        txtId = (TextView) findViewById(R.id.txtId);
-        txtMdp = (TextView) findViewById(R.id.txtMdp);
-
         edId = (EditText) findViewById(R.id.edId);
         edMdp = (EditText) findViewById(R.id.edMdp);
     }
