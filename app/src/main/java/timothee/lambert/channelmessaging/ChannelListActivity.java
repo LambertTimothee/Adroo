@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -30,13 +31,18 @@ public class ChannelListActivity extends AppCompatActivity implements OnDownload
 
         SharedPreferences settings = getSharedPreferences(LoginActivity.PREFS_NAME, 0);
         String accesstoken = settings.getString("accesstoken", "error");
-
-        HashMap<String, String> connectInfo = new HashMap<>();
-        lvChannel = (ListView) findViewById(R.id.lvChannel);
-        connectInfo.put("accesstoken", accesstoken);
-        Async Async = new Async(getApplicationContext(), connectInfo,"getchannels");
-        Async.setOnDownloadCompleteListener(this);
-        Async.execute();
+        if(ConnexionInternet.isConnectedInternet(this)) {
+            HashMap<String, String> connectInfo = new HashMap<>();
+            lvChannel = (ListView) findViewById(R.id.lvChannel);
+            connectInfo.put("accesstoken", accesstoken);
+            Async Async = new Async(getApplicationContext(), connectInfo, "getchannels");
+            Async.setOnDownloadCompleteListener(this);
+            Async.execute();
+        }
+        else
+        {
+            Toast.makeText(this, "Vous n'êtes pas connecté à internet", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

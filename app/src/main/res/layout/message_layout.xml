@@ -7,10 +7,12 @@
         android:layout_width="363dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/txtMsg" />
+        android:id="@+id/txtMsg"
+        android:textColor="@color/button" />
 
     <TextView
         android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:id="@+id/txtDate" />
+        android:id="@+id/txtDate"
+        android:textColor="@color/button" />
 </LinearLayout>

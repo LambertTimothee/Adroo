@@ -40,14 +40,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         if(v.getId() == btValider.getId())
         {
-            HashMap<String, String> connectInfo = new HashMap<>();
-            connectInfo.put("username", edId.getText().toString());
-            connectInfo.put("password", edMdp.getText().toString());
-            Async Async = new Async(getApplicationContext(), connectInfo,"connect");
-            Async.setOnDownloadCompleteListener(this);
-            Async.execute();
-
-
+            if(ConnexionInternet.isConnectedInternet(this))
+            {
+                HashMap<String, String> connectInfo = new HashMap<>();
+                connectInfo.put("username", edId.getText().toString());
+                connectInfo.put("password", edMdp.getText().toString());
+                Async Async = new Async(getApplicationContext(), connectInfo,"connect");
+                Async.setOnDownloadCompleteListener(this);
+                Async.execute();
+            }
+            else
+            {
+                Toast.makeText(this, "Vous n'êtes pas connecté à internet", Toast.LENGTH_SHORT).show();
+            }
         }
 
     }

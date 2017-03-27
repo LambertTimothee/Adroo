@@ -9,12 +9,14 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/name"
-        android:text="nom" />
+        android:text="nom"
+        android:textColor="@color/button" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="38dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/connectedusers"
-        android:text="user" />
+        android:text="user"
+        android:textColor="@color/button" />
 </LinearLayout>

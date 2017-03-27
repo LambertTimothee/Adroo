@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -36,6 +37,7 @@ public class ChannelActivity extends AppCompatActivity implements View.OnClickLi
         final Runnable run = new Runnable() {
             @Override
             public void run() {
+
                 loadMessage();
                 handler.postDelayed(this,1000);
             }
@@ -62,14 +64,20 @@ public class ChannelActivity extends AppCompatActivity implements View.OnClickLi
         lvMessages.setAdapter(new MessageListViewAdapter(getApplicationContext(), R.layout.activity_channel ,R.layout.message_layout, msg.messages));
     }
     public void postMsg(){
-        HashMap<String, String> connectInfo = new HashMap<>();
-        SharedPreferences settings = getSharedPreferences(LoginActivity.PREFS_NAME, 0);
-        String accessToken = settings.getString("accesstoken", "error");
-        connectInfo.put("accesstoken",accessToken);
-        connectInfo.put("channelid",Integer.toString(getIntent().getIntExtra("id",0)));
-        connectInfo.put("message",txtMessage.getText().toString());
-        Async Async = new Async(getApplicationContext(),connectInfo,"sendmessage");
-        Async.execute();
+        if(ConnexionInternet.isConnectedInternet(this)) {
+            HashMap<String, String> connectInfo = new HashMap<>();
+            SharedPreferences settings = getSharedPreferences(LoginActivity.PREFS_NAME, 0);
+            String accessToken = settings.getString("accesstoken", "error");
+            connectInfo.put("accesstoken", accessToken);
+            connectInfo.put("channelid", Integer.toString(getIntent().getIntExtra("id", 0)));
+            connectInfo.put("message", txtMessage.getText().toString());
+            Async Async = new Async(getApplicationContext(), connectInfo, "sendmessage");
+            Async.execute();
+        }
+        else
+        {
+            Toast.makeText(this, "Vous n'êtes pas connecté à internet", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
